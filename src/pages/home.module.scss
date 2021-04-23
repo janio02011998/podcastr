@@ -28,7 +28,7 @@
         }
 
         img {
-            width: 6rem;
+            width: 4rem;
             height: 6rem;
             border-radius: 1rem;
         }
@@ -54,7 +54,6 @@
                 font-size: 0.875rem;
                 margin-top: 0.5rem;
                 max-width: 70%;
-                white-space: nowrap;
                 overflow: hidden;
                 text-decoration: ellipsis;
             }
@@ -131,9 +130,10 @@
             font-size: 0.875rem;
 
             img {
-                width: 2.5rem;
-                height: 2.5rem;
+                width: 3.5rem;
+                height: 3.5rem;
                 border-radius: 0.5rem;
+                background-size: contain;
             }
 
             a {
@@ -167,6 +167,22 @@
                     filter: brightness(0.9);
                 }
             }
+        }
+    }
+}
+
+@media (max-width: 720px) {
+    .homePage {
+        margin: 0;
+        padding: 0 2rem;
+    }
+
+    .latestEpisodes {
+        ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: auto;
+            // gap: 1.5rem;
         }
     }
 }

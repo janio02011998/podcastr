@@ -90,3 +90,10 @@
         }
     }
 }
+
+@media (max-width: 720px) {
+    .playerContainer{ 
+        width: 100vw;
+        height: 100vh;
+    }
+}

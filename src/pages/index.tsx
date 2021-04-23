@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next';
 import { format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import Link from 'next/link';
 import Image from 'next/image';
 
 import { api } from '../services/api';
@@ -12,7 +13,6 @@ type Episode = {
   id: string;
   title: string;
   thumbnail: string,
-  description: string,
   members: string;
   duration: number,
   durationAs: string,
@@ -36,24 +36,30 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
           {latestEpisodes.map(episode => {
             return (
               <li key={episode.id}>
-                <Image
+                {/* <Image
                   width={192}
                   height={192}
                   objectFit="cover"
                   alt={episode.title}
                   src={episode.thumbnail}
-                />
+                /> */}
+                <img  src={episode.thumbnail}  alt={episode.title}/>
 
                 <div className={styles.episodeDetails}>
-                  <a href="">{episode.title}</a>
+
+                  <Link href={`/episodes/${episode.id}`}>
+                    <a>{episode.title}</a>
+                  </Link>
                   <p>{episode.members}</p>
                   <span>{episode.publishedAt}</span>
                   <span>{episode.durationAs}</span>
 
                 </div>
+
                 <button type='button'>
                   <img src='/assets/play-green.svg' alt='Tocar episódio' />
                 </button>
+
               </li>
             );
           })}
@@ -64,31 +70,37 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
 
         <table cellSpacing={0}>
           <thead>
-            <th></th>
-            <th>Podcast</th>
-            <th>Integrantes</th>
-            <th>Data</th>
-            <th>Duração</th>
-            <th></th>
+            <tr>
+              <th></th>
+              <th>Podcast</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
             {allEpisodes.map(episode => {
               return (
                 <tr key={episode.id}>
-                  <td style={{ width: 100}}>
-                    <Image
+                  <td style={{ width: 100 }}>
+                    {/* <Image
                       width={160}
                       height={160}
                       objectFit="cover"
                       alt={episode.title}
                       src={episode.thumbnail}
-                    />
+                    /> */}
+                    <img src={episode.thumbnail} alt="" />
+
                   </td>
                   <td>
-                    <a href="">{episode.title}</a>
+                    <Link href={`/episodes/${episode.id}`}>
+                      <a>{episode.title}</a>
+                    </Link>
                   </td>
                   <td>{episode.members}</td>
-                  <td style={{ width: 100}}>{episode.publishedAt}</td>
+                  <td style={{ width: 100 }}>{episode.publishedAt}</td>
                   <td>{episode.durationAs}</td>
                   <td>
                     <button type='button'>
@@ -121,7 +133,6 @@ export const getStaticProps: GetStaticProps = async () => {
       members: episode.members,
       thumbnail: episode.thumbnail,
       publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
-      description: episode.description,
       durationAs: convertDurationToTimeString(Number(episode.file.duration)),
       url: episode.file.url
     };
