@@ -25,7 +25,7 @@
     footer {
         align-self: stretch;
 
-        &.empty {
+        &.empty .progress {
             opacity: 0.5;
         }
     }
@@ -35,23 +35,27 @@
     text-align: center;
 
     img {
-        width:300px;
-        height:200px;
+        width: 300px;
+        height: 200px;
         border-radius: 1.5rem;
     }
 
-    strong {
-        display: block;
-        margin-top: 2rem;
-        font: 600 1rem Lexend, sans-serif;
-        line-height: 1.75rem;
-    }
+    .descriptionPlayer {
+        // position: fixed;
 
-    span {
-        display: block;
-        margin-top: 1rem;
-        opacity: 0.6;
-        line-height: 1.5rem;
+        strong {
+            display: block;
+            margin-top: 2rem;
+            font: 600 1rem Lexend, sans-serif;
+            line-height: 1.75rem;
+        }
+
+        span {
+            display: block;
+            margin-top: 1rem;
+            opacity: 0.6;
+            line-height: 1.5rem;
+        }
     }
 }
 
@@ -114,6 +118,18 @@
 
         &:hover:not(:disabled) {
             filter: brightness(0.7);
+        }
+
+        &.isNotActive {
+            filter: brightness(0.6);
+        }
+
+        &.isActive {
+            filter: invert(0.35) sepia(1) saturate(3) hue-rotate(100deg);
+        }
+
+        &.isActive:hover {
+            filter: brightness(0.6) sepia(1) saturate(3) hue-rotate(100deg);
         }
 
         &.playButton {

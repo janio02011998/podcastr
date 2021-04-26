@@ -2,7 +2,10 @@ import format from 'date-fns/format';
 import { ptBR } from 'date-fns/locale';
 import parseISO from 'date-fns/parseISO';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePlayer } from '../../ctx/PlayerContext';
 
 import { api } from '../../services/api';
 import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString';
@@ -26,11 +29,15 @@ type EpisodeProps = {
 }
 
 export default function Episode({ episode }: EpisodeProps) {
+    const { play } = usePlayer();
+
     return (
         <div className={styles.episode}>
             <div className={styles.thumbnailContainer}>
                 <button type='button'>
-                    <img src="/assets/arrow-left.svg" alt="Voltar" />
+                    <Link href='/'>
+                        <img src="/assets/arrow-left.svg" alt="Voltar" />
+                    </Link>
                 </button>
                 <Image
                     width={700}
@@ -38,10 +45,13 @@ export default function Episode({ episode }: EpisodeProps) {
                     src={episode.thumbnail}
                     objectFit="cover"
                 />
-                <button type="button">
+                <button type="button" onClick={() => play(episode)}>
                     <img src="/assets/play.svg" alt="Tocar episódio" />
                 </button>
             </div>
+            <Head>
+                <title>{episode.title} | Podcastr</title>
+            </Head>
             <header>
                 <h1>{episode.title}</h1>
                 <span>{episode.members}</span>
@@ -60,11 +70,11 @@ export default function Episode({ episode }: EpisodeProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
     const { data } = await api.get('episodes', {
         params: {
-          _limit: 12,
-          _sort: 'published_at',
-          _order: 'desc'
+            _limit: 12,
+            _sort: 'published_at',
+            _order: 'desc'
         }
-      });
+    });
 
     const paths = data.map(episode => {
         return {
